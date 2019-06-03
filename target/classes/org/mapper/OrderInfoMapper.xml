@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wx.jiu.mapper.OrderInfoMapper" >
+  <resultMap id="BaseResultMap" type="org.wx.jiu.domain.OrderInfo" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="pk_order_info_id" property="pkOrderInfoId" jdbcType="VARCHAR" />
+    <result column="fk_user_id" property="fkUserId" jdbcType="INTEGER" />
+    <result column="fk_address_id" property="fkAddressId" jdbcType="INTEGER" />
+    <result column="order_info_no" property="orderInfoNo" jdbcType="VARCHAR" />
+    <result column="order_info_freight" property="orderInfoFreight" jdbcType="DOUBLE" />
+    <result column="order_info_money" property="orderInfoMoney" jdbcType="DOUBLE" />
+    <result column="order_info_state" property="orderInfoState" jdbcType="INTEGER" />
+    <result column="pay_method" property="payMethod" jdbcType="INTEGER" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="delivery_time" property="deliveryTime" jdbcType="TIMESTAMP" />
+    <result column="receiving_time" property="receivingTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="is_comment" property="isComment" jdbcType="INTEGER" />
+  </resultMap>
+<resultMap type="org.wx.jiu.domain.OrderInfo" id="selectOrderAndUser" extends="BaseResultMap">
+  	<association property="user" column="fk_user_id" resultMap="org.wx.jiu.mapper.UserMapper.BaseResultMap"></association>
+  </resultMap>
+  <resultMap type="org.wx.jiu.domain.OrderInfo" id="selectOrderAndOther" extends="selectOrderAndUser">
+  	<association property="address" column="fk_address_id" resultMap="org.wx.jiu.mapper.AddressMapper.BaseResultMap"></association>
+  </resultMap>
+  <select id="selectAllOrderAndOther" resultMap="selectOrderAndOther">
+  	select * from order_info o left join user u on o.fk_user_id=u.pk_user_id 
+  	LEFT JOIN address a on o.fk_address_id=a.pk_address_id
+  	where o.is_delete=1 ORDER BY o.create_time DESC
+  </select>
+  <select id="selectAllOrderAndOtherMohu" resultMap="selectOrderAndOther">
+  	select * from order_info o left join user u on o.fk_user_id=u.pk_user_id 
+  	LEFT JOIN address a on o.fk_address_id=a.pk_address_id
+  	where o.is_delete=1 and o.pk_order_info_id LIKE concat(concat('%',#{orderid}),'%')  ORDER BY o.create_time DESC
+  </select>
+  <select id="selectOrderByDelete" resultMap="selectOrderAndOther">
+  	select * from order_info o left join user u on o.fk_user_id=u.pk_user_id 
+  	LEFT JOIN address a on o.fk_address_id=a.pk_address_id
+  	where o.is_delete=0 ORDER BY o.update_time DESC
+  </select>
+  <update id="deleteByIsdelete" parameterType="java.lang.String">
+    update order_info
+    set is_delete=0
+    where pk_order_info_id = #{orderid,jdbcType=VARCHAR}
+  </update>
+    <update id="updateByIsdeleteToHuiFu" parameterType="java.lang.String">
+    update order_info
+    set is_delete=1
+    where pk_order_info_id = #{orderid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByState" parameterType="java.lang.String">
+    update order_info
+    set order_info_state=3
+    where pk_order_info_id = #{orderid,jdbcType=VARCHAR}
+  </update>
+</mapper>

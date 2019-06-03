@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE generatorConfiguration PUBLIC  
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"  
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
+<!-- mybatis-generator:generate -->
+<generatorConfiguration>
+  <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+
+    <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+      <property name="mappers" value="org.wx.jiu.common.BaseMapper"/>
+      <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
+      <property name="caseSensitive" value="true"/>
+    </plugin>
+
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                    connectionURL="jdbc:mysql://localhost:3306/wine_wx_shop"
+                    userId="root"
+                    password="">
+    </jdbcConnection>
+
+    <javaModelGenerator targetPackage="org.wx.jiu.domain" targetProject="src\main\java"/>
+
+    <sqlMapGenerator targetPackage="org.mapper"  targetProject="src\main\resources"/>
+
+    <javaClientGenerator targetPackage="org.wx.jiu.mapper" targetProject="src\main\java" type="XMLMAPPER" />
+
+    <!-- <table tableName="user" domainObjectName="User">
+			<generatedKey column="id" sqlStatement="MySql" />
+	</table> -->
+		<!-- 配置指定生成相关实体 映射器 映射文件 对应的表 如配置：% 表示对应所有表 -->	
+ 		<table tableName="%">
+			<generatedKey column="id" sqlStatement="Mysql" />
+		</table>
+		<!-- <table tableName="address" domainObjectName="Address" >
+			<generatedKey column="id" sqlStatement="MySql" identity="uuid"/>
+		</table>
+				<table tableName="carousel" domainObjectName="Carousel">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="comment" domainObjectName="Comment">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="good" domainObjectName="Good">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="good_type_big" domainObjectName="GoodTypeBig">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="good_type_small" domainObjectName="GoodTypeSmall">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="news" domainObjectName="News">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="order_info" domainObjectName="OrderInfo">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="order_info_detail" domainObjectName="Order_info_detail">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="address" domainObjectName="Address">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="address" domainObjectName="Address">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="address" domainObjectName="Address">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="address" domainObjectName="Address">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+				<table tableName="address" domainObjectName="Address">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table> -->
+  </context>
+</generatorConfiguration>

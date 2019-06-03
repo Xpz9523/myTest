@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wx.jiu.mapper.NewsMapper" >
+  <resultMap id="BaseResultMap" type="org.wx.jiu.domain.News" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="pk_news_id" property="pkNewsId" jdbcType="INTEGER" />
+    <result column="news_title" property="newsTitle" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="news_content" property="newsContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+    <select id="selectAllNews" resultMap="BaseResultMap">
+  	select * from news
+  	where is_delete=1 ORDER BY create_time DESC
+  </select>
+  
+  <select id="selectAllNewsMohu" resultMap="BaseResultMap">
+  	select * from news
+  	where is_delete=1 and news_title LIKE concat(concat('%',#{title}),'%')  ORDER BY create_time DESC
+  </select>
+  <update id="deleteByIsdelete" parameterType="java.lang.Integer">
+    update news
+    set is_delete=0
+    where pk_news_id = #{newsid,jdbcType=INTEGER}
+  </update>
+   <select id="selectNewsByDelete" resultMap="BaseResultMap">
+  	select * from news
+  	where is_delete=0 ORDER BY create_time DESC
+  </select>
+  <update id="updateByIsdeleteToHuiFu" parameterType="java.lang.Integer">
+    update news
+    set is_delete=1
+    where pk_news_id = #{newsid,jdbcType=INTEGER}
+  </update>
+</mapper>

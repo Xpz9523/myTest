@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wx.jiu.mapper.GoodMapper" >
+  <resultMap id="BaseResultMap" type="org.wx.jiu.domain.Good" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="pk_good_id" property="pkGoodId" jdbcType="INTEGER" />
+    <result column="fk_good_type_small_id" property="fkGoodTypeSmallId" jdbcType="INTEGER" />
+    <result column="good_name" property="goodName" jdbcType="VARCHAR" />
+    <result column="good_title" property="goodTitle" jdbcType="VARCHAR" />
+    <result column="good_sub_title" property="goodSubTitle" jdbcType="VARCHAR" />
+    <result column="good_price" property="goodPrice" jdbcType="DOUBLE" />
+    <result column="good_cover_img" property="goodCoverImg" jdbcType="VARCHAR" />
+    <result column="good_carousel_imgs" property="goodCarouselImgs" jdbcType="VARCHAR" />
+    <result column="good_freight" property="goodFreight" jdbcType="DOUBLE" />
+    <result column="good_num" property="goodNum" jdbcType="INTEGER" />
+    <result column="good_collection_num" property="goodCollectionNum" jdbcType="INTEGER" />
+    <result column="good_sale_num" property="goodSaleNum" jdbcType="INTEGER" />
+    <result column="good_state" property="goodState" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="good_detail" property="goodDetail" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap type="org.wx.jiu.domain.Good" id="selectGoodAndTypeResultMap" extends="BaseResultMap">
+  	<association property="goodTypeSmall" column="fk_good_type_small_id" resultMap="org.wx.jiu.mapper.GoodTypeSmallMapper.BaseResultMap"></association>
+  </resultMap>
+  <select id="selectGoodAndType" resultMap="selectGoodAndTypeResultMap">
+		select * from good left join good_type_small on good.fk_good_type_small_id=good_type_small.pk_type_small_id where good.is_delete=1
+  </select>
+  <select id="selectGoodAndTypeIsDelete" resultMap="selectGoodAndTypeResultMap">
+		select * from good left join good_type_small on good.fk_good_type_small_id=good_type_small.pk_type_small_id where good.is_delete=0
+  </select>
+  <select id="selectGoodByGoodSaleNum" resultMap="BaseResultMap">
+		SELECT * from good WHERE is_delete=1 ORDER BY good_sale_num DESC   
+  </select>
+  <select id="selectGoodByGoodConllectionNum" resultMap="BaseResultMap">
+		SELECT * from good WHERE is_delete=1 ORDER BY good_collection_num DESC   
+  </select>
+  
+  
+   <select id="selectGoodByrefresh" resultMap="BaseResultMap">
+	select 
+		*
+	from good 
+	WHERE good_name like concat('%', #{keyword}, '%')
+	 
+
+  </select>
+  
+</mapper>

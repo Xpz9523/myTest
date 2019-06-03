@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wx.jiu.mapper.AddressMapper">
+	<resultMap id="BaseResultMap" type="org.wx.jiu.domain.Address">
+		<!-- WARNING - @mbg.generated -->
+		<id column="pk_address_id" property="pkAddressId" jdbcType="INTEGER" />
+		<result column="fk_user_id" property="fkUserId" jdbcType="INTEGER" />
+		<result column="person_name" property="personName" jdbcType="VARCHAR" />
+		<result column="person_phone" property="personPhone" jdbcType="VARCHAR" />
+		<result column="sheng" property="sheng" jdbcType="VARCHAR" />
+		<result column="sheng_code" property="shengCode" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+		<result column="area" property="area" jdbcType="VARCHAR" />
+		<result column="area_code" property="areaCode" jdbcType="VARCHAR" />
+		<result column="detail_address" property="detailAddress"
+			jdbcType="VARCHAR" />
+		<result column="is_default" property="isDefault" jdbcType="INTEGER" />
+		<result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+		<result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="selectAddressAll" resultMap="BaseResultMap">
+		select
+		pk_address_id,
+		fk_user_id,
+		person_name,
+		person_phone,
+		sheng,
+		sheng_code,
+		city,
+		city_code,
+		area,
+		area_code,
+		detail_address,
+		is_default,
+		createTime,
+		updateTime,
+		is_delete
+		from address
+		ORDER BY is_delete
+	</select>
+	<update id="updateIsDefaultByfkUserId" parameterType="Integer">
+		update address set is_default =0 WHERE fk_user_id=#{arg0}
+	</update>
+	<select id="selectAddressAllByIsDefault" resultMap="BaseResultMap">
+		SELECT * from address WHERE fk_user_id=#{arg0} and is_delete=1 ORDER BY
+		is_default DESC
+	</select>
+	<select id="selectByIsDefault" parameterType="Integer" resultType="Integer">
+		SELECT count(*) from address WHERE fk_user_id =#{arg0} AND is_default=1 and is_delete=1
+	</select>
+	<select id="selectByfkUserId" parameterType="Integer" resultType="Integer">
+		SELECT count(*) from address WHERE fk_user_id=#{arg0} and is_delete=1
+	</select>
+</mapper>

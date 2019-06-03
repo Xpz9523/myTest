@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wx.jiu.mapper.GoodTypeSmallMapper" >
+  <resultMap id="BaseResultMap" type="org.wx.jiu.domain.GoodTypeSmall" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="pk_type_small_id" property="pkTypeSmallId" jdbcType="INTEGER" />
+    <result column="fk_type_big_id" property="fkTypeBigId" jdbcType="INTEGER" />
+    <result column="type_small_name" property="typeSmallName" jdbcType="VARCHAR" />
+    <result column="type_small_img" property="typeSmallImg" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap>
+
+   <resultMap type="org.wx.jiu.domain.GoodTypeSmall" id="selectGoodTypeBigAndGoodTypeSmallResultMap" extends="BaseResultMap">
+  	<association property="goodTypeBig" column="pk_type_big_id" resultMap="org.wx.jiu.mapper.GoodTypeBigMapper.BaseResultMap"></association>
+  </resultMap>
+  
+  <select id="selectGoodTypeSmallList" resultMap="selectGoodTypeBigAndGoodTypeSmallResultMap">
+  	 select 
+		*
+		from good_type_big gb inner JOIN good_type_small gs
+		ON gb.pk_type_big_id=gs.fk_type_big_id
+		where gb.is_delete =1 
+		and  gb.pk_type_big_id = #{pkTypeBigId}
+	</select>
+  
+  
+  
+  
+  	<select id="selectSmallAll" resultMap="BaseResultMap">
+		select * from good_type_small where is_delete=1 order by update_time desc 
+	</select>
+	<!-- 逻辑删除商品小种类 -->
+	<update id="deleteGoodTypeSmallById" parameterType="org.wx.jiu.domain.GoodTypeSmall">
+		update good_type_small set is_delete=0 WHERE pk_type_small_id= #{pkTypeSmallId}
+	</update>
+	<!-- 根据id 查询一个商品类型 -->
+	<select id="getGoodTypeSmallById" resultMap="BaseResultMap">
+		select * from good_type_small where pk_type_small_id=#{pkTypeSmallId}
+	</select>
+	<select id="getGoodTypeSmallByName" resultType="java.lang.Integer">
+		select count(*) from good_type_small where type_small_name=#{typeSmallName}
+	</select>
+	
+	
+	<!-- selectGoodTypeSmallList -->
+	
+	
+	
+	
+	
+</mapper>

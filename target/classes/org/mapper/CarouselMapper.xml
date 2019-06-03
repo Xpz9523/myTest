@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wx.jiu.mapper.CarouselMapper" >
+  <resultMap id="BaseResultMap" type="org.wx.jiu.domain.Carousel" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="pk_carousel_id" property="pkCarouselId" jdbcType="INTEGER" />
+    <result column="fk_good_id" property="fkGoodId" jdbcType="INTEGER" />
+    <result column="carousel_img" property="carouselImg" jdbcType="VARCHAR" />
+    <result column="carousel_remark" property="carouselRemark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap>
+  <!--  resultType="org.wx.jiu.domain.Carousel" -->
+ <select id="selectCarouselAll"  resultMap="BaseResultMap">
+    select pk_carousel_id ,
+	     fk_good_id ,
+	     carousel_img  ,
+	     carousel_remark ,
+	     create_time ,
+	     update_time ,
+		 is_delete 	
+    from carousel
+    where is_delete = 0
+   <!--  
+    select 
+	  	c.pk_carousel_id "pkCarouselId",
+	  	c.fk_good_id "fkGoodId",
+		c. carousel_img "carouselImg" ,
+		c. carousel_remark "carouselRemark",
+	 	c.create_time "createTime",
+		c.update_time "updateTime",
+		c.is_delete "isDelete",	
+		g.good_name "goodName"
+from carousel c inner join good g 
+on c.fk_good_id = g.pk_good_id
+where c.is_delete=0 -->
+  </select>
+  
+  
+  
+ <select id="selectCarouselByID" resultType="org.wx.jiu.domain.Carousel">
+    select pk_carousel_id ,
+	     fk_good_id ,
+	     carousel_img  ,
+	     carousel_remark ,
+	     create_time ,
+	     update_time ,
+		 is_delete 	
+    from carousel
+    where is_delete = 0 and pk_carousel_id =#{pkCarouselId}
+    
+
+  </select>
+</mapper>

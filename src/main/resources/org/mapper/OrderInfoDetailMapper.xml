@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wx.jiu.mapper.OrderInfoDetailMapper" >
+  <resultMap id="BaseResultMap" type="org.wx.jiu.domain.OrderInfoDetail" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="pk_order_info_detail_id" property="pkOrderInfoDetailId" jdbcType="VARCHAR" />
+    <result column="fk_good_id" property="fkGoodId" jdbcType="INTEGER" />
+    <result column="fk_order_info_id" property="fkOrderInfoId" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="count_money" property="countMoney" jdbcType="DOUBLE" />
+    <result column="good_img" property="goodImg" jdbcType="VARCHAR" />
+    <result column="specifications_info" property="specificationsInfo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap>
+    <select id="selectAllOrderInfoAdminMohu" resultMap="BaseResultMap">
+  	select * from order_info_detail
+  	where is_delete=1 and pk_order_info_detail_id LIKE concat(concat('%',#{orderinfoid}),'%')  ORDER BY create_time DESC
+  </select>
+</mapper>

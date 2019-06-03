@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wx.jiu.mapper.SizeDetailMapper" >
+  <resultMap id="BaseResultMap" type="org.wx.jiu.domain.SizeDetail" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="pk_size_detail_id" property="pkSizeDetailId" jdbcType="INTEGER" />
+    <result column="fk_size_id" property="fkSizeId" jdbcType="INTEGER" />
+    <result column="size_detail_name" property="sizeDetailName" jdbcType="VARCHAR" />
+    <result column="size_detail_remark" property="sizeDetailRemark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap>
+	<select id="selectDetailAll" resultMap="BaseResultMap">
+		select * from size_detail where is_delete=1 order by update_time desc 
+	</select>
+	<!-- 根据id 查询一个商品类型 -->
+	<select id="getSizeDetailById" resultMap="BaseResultMap">
+		select * from size_detail where pk_size_detail_id=#{fkSizeId}
+	</select>
+	<select id="getSizeDetailByName" resultType="java.lang.Integer">
+		select count(*) from size_detail where size_detail_name=#{sizeDetailName}
+	</select>
+</mapper>

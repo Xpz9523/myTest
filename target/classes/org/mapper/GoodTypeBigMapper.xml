@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wx.jiu.mapper.GoodTypeBigMapper" >
+  <resultMap id="BaseResultMap" type="org.wx.jiu.domain.GoodTypeBig" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="pk_type_big_id" property="pkTypeBigId" jdbcType="INTEGER" />
+    <result column="type_big_name" property="typeBigName" jdbcType="VARCHAR" />
+    <result column="type_big_remark" property="typeBigRemark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  
+  
+  
+	<!-- 查询所有状态为未删除的商品大种类 -->
+	<select id="selectBigAll" resultMap="BaseResultMap">
+		select * from good_type_big where is_delete=1 order by update_time desc 
+	</select>
+	<!-- 逻辑删除商品大种类 -->
+	<update id="deleteBigGoodType" parameterType="org.wx.jiu.domain.GoodTypeBig">
+		update good_type_big set is_delete=0 WHERE pk_type_big_id=#{pkTypeBigId}
+	</update>
+	<!-- 根据id 查询一个商品类型 -->
+	<select id="getGoodTypeBigById" resultMap="BaseResultMap">
+		select * from good_type_big where pk_type_big_id=#{pkTypeBigId}
+	</select>
+	<select id="getGoodTypeBigByName" resultType="java.lang.Integer">
+		select count(*) from good_type_big where type_big_name=#{typeBigName}
+	</select>
+</mapper>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.wx.jiu.mapper.UserMapper">
+	<resultMap id="BaseResultMap" type="org.wx.jiu.domain.User">
+		<!-- WARNING - @mbg.generated -->
+		<id column="pk_user_id" property="pkUserId" jdbcType="INTEGER" />
+		<result column="fk_user_level_id" property="fkUserLevelId"
+			jdbcType="INTEGER" />
+		<result column="login_name" property="loginName" jdbcType="VARCHAR" />
+		<result column="login_pwd" property="loginPwd" jdbcType="VARCHAR" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+		<result column="user_email" property="userEmail" jdbcType="VARCHAR" />
+		<result column="user_birthday" property="userBirthday"
+			jdbcType="TIMESTAMP" />
+		<result column="user_headImg" property="userHeadimg" jdbcType="VARCHAR" />
+		<result column="user_sex" property="userSex" jdbcType="INTEGER" />
+		<result column="user_age" property="userAge" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="is_admin" property="isAdmin" jdbcType="INTEGER" />
+		<result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+		<result column="is_register" property="isRegister" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap type="org.wx.jiu.domain.User" id="selectUserAndLevelResultMap" extends="BaseResultMap">
+		<association property="userLevel" column="fk_user_level_id" resultMap="org.wx.jiu.mapper.UserLevelMapper.BaseResultMap"></association>
+	</resultMap>
+
+
+	<select id="getHeadImg" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select *
+		from user
+		where login_name = #{loginName,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByLoginNameAndLoginPwd" resultType="java.lang.Integer">
+		select count(*) from user where login_name=#{arg0} and
+		login_pwd=#{arg1} and is_admin=1 and is_delete=1
+	</select>
+	<select id="selectByLoginNameAndLoginPwdByisAdmin" resultType="java.lang.Integer">
+		select count(*) from user where login_name=#{arg0} and
+		login_pwd=#{arg1} and is_delete=1
+	</select>
+	<select id="selectAllUser" resultMap="BaseResultMap">
+		select * from user where is_delete=1
+	</select>
+
+	<select id="selectUserAndLevel" resultMap="selectUserAndLevelResultMap">
+		SELECT * from user LEFT JOIN user_level on user.fk_user_level_id=user_level.pk_user_level_id WHERE `user`.login_name=#{loginName} and `user`.is_delete=1
+	</select>
+
+	<update id="delUserById" parameterType="Integer">
+		update user set is_delete=0 where pk_user_id=#{pk_user_id}
+	</update>
+</mapper>
