@@ -20,6 +20,7 @@ public class BizNumberUtil {
 		while(curttNoStr.length()<3){;
 			curttNoStr="0"+curttNoStr;
 		}
+		System.out.println("");
 		return new SimpleDateFormat(dataFormatString).format(new Date())+curttNoStr;
 	}
 	
