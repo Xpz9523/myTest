@@ -116,7 +116,7 @@ public class BaseController {
 	@ExceptionHandler(value = RuntimeException.class)
 	@ResponseBody
 	public JsonResult handleException(HttpServletRequest request, HttpServletResponse response, RuntimeException ex) {
-
+		System.out.println(1111);
 		// 判断异常类型
 		if (ex instanceof BusinessException) {
 			return JsonResultUtil.error(ex.getMessage(), null);
